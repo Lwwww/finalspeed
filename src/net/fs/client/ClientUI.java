@@ -110,8 +110,6 @@ public class ClientUI implements ClientUII, WindowListener {
 
     String errorMsg = "保存失败请检查输入信息!";
 
-    JButton button_site;
-
     MapRuleListModel model;
 
     public MapRuleListTable tcpMapRuleListTable;
@@ -167,7 +165,6 @@ public class ClientUI implements ClientUII, WindowListener {
         mainFrame = new JFrame();
         mainFrame.setIconImage(Toolkit.getDefaultToolkit().getImage(logoImg));
         initUI();
-//        checkQuanxian();
         loadConfig();
         mainFrame.setTitle("FinalSpeed 1.2");
         mainPanel = (JPanel) mainFrame.getContentPane();
@@ -388,19 +385,6 @@ public class ClientUI implements ClientUII, WindowListener {
         sp2.setLayout(new MigLayout("insets 0 0 0 0"));
         loginPanel.add(sp2, "align center,  wrap");
 
-        final JCheckBox cb = new JCheckBox("开机启动", config.isAutoStart());
-        sp2.add(cb, "align center");
-        cb.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                config.setAutoStart(cb.isSelected());
-                saveConfig();
-                setAutoRun(config.isAutoStart());
-            }
-
-        });
-
         JButton button_show_log = createButton("显示日志");
         sp2.add(button_show_log, "wrap");
         button_show_log.addActionListener(new ActionListener() {
@@ -427,16 +411,6 @@ public class ClientUI implements ClientUII, WindowListener {
         loginPanel.add(p4, "align center,wrap");
         JButton button_save = createButton("确定");
         p4.add(button_save);
-
-        button_site = createButton("网站");
-        p4.add(button_site);
-        button_site.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openUrl(homeUrl);
-            }
-        });
 
         JButton button_exit = createButton("退出");
         p4.add(button_exit);
@@ -467,10 +441,6 @@ public class ClientUI implements ClientUII, WindowListener {
         JPanel p5 = new JPanel();
         p5.setLayout(new MigLayout("insets 5 0 0 0 "));
         mainPanel.add(p5, "align right");
-        JButton button_fsa = createButton_Link("FS高级版", "http://www.xsocks.me/?fsc");
-        p5.add(button_fsa);
-        JButton button_wlt = createButton_Link("网络通内网穿透", "http://www.youtusoft.com/?fsc");
-        p5.add(button_wlt);
 
         downloadSpeedField = new JLabel();
         downloadSpeedField.setHorizontalAlignment(JLabel.RIGHT);
@@ -795,30 +765,6 @@ public class ClientUI implements ClientUII, WindowListener {
             }
         }
 
-    }
-
-    void checkQuanxian() {
-        if (systemName.contains("windows")) {
-            boolean b = false;
-            File file = new File(System.getenv("WINDIR") + "\\test.file");
-            //System.out.println("kkkkkkk "+file.getAbsolutePath());
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            b = file.exists();
-            file.delete();
-
-            if (!b) {
-                //mainFrame.setVisible(true);
-                if (isVisible) {
-                    JOptionPane.showMessageDialog(null, "请以管理员身份运行! ");
-                }
-                MLog.println("请以管理员身份运行,否则可能无法正常工作! ");
-//                System.exit(0);
-            }
-        }
     }
 
     void loadMapRule() {
